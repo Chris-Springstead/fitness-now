@@ -3,5 +3,5 @@
 
 public class Config {
   
-  public final static String WORKOUTFILE = "workouts.csv";
+	public final static String WORKOUTFILE = "workouts.csv";
 }
