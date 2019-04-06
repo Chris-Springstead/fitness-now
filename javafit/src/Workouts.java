@@ -19,7 +19,7 @@ public class Workouts {
 	// You will need to create a number of methods for the inner class. You are not limited to 
 	// only the methods listed inside this class.
 	private class Workout {
-	  private String name;
+    private String name;
 	  private Equipment equipment;
 		private muscle primaryMuscle;
 		private muscle secondaryMuscle;
