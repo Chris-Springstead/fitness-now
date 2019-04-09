@@ -11,67 +11,95 @@ import java.util.ArrayList; // We choose ArrayList over Vector because...?
 public class Workouts {
 
   // Use the Refactor functionality in Eclipse to rename "muscle" to "Muscle" to match our naming convention.
-  public enum muscle {ABS, BACK, BICEPS, CHEST, FOREARM, GLUTES, LOWERLEG, SHOULDER, TRICEPS, UPPERLEG, NONE} // Why didn't I have to declare this static?
+  public enum Muscle {ABS, BACK, BICEPS, CHEST, FOREARM, GLUTES, LOWERLEG, SHOULDER, TRICEPS, UPPERLEG, NONE} // Why didn't I have to declare this static?
   public enum Equipment {BARBELL, BODYWEIGHT, DUMBBELL, CABLE, HAMMERSTRENGTH}
-	private final ArrayList<Workout> workoutList = new ArrayList<Workout>();
+  private final ArrayList<Workout> workoutList = new ArrayList<Workout>();
 
 	// This is a nested class, also known as an inner class. Why do we use a nested class?
 	// You will need to create a number of methods for the inner class. You are not limited to 
 	// only the methods listed inside this class.
 	private class Workout {
-    private String name;
-	  private Equipment equipment;
-		private muscle primaryMuscle;
-		private muscle secondaryMuscle;
+		private String name;
+		private Equipment equipment;
+		private Muscle primaryMuscle;
+		private Muscle secondaryMuscle;
 		private String desc;
 		private String reminders;
 	
-    Workout(String name, Equipment equipment, muscle primaryMuscle, muscle secondaryMuscle, String desc, String reminders) {
-    }
+		Workout(String name, Equipment equipment, Muscle primaryMuscle, Muscle secondaryMuscle, String desc, String reminders) {
+		  // constructor that initializes the values in the class to the corresponding arguments passed into the constructor
+		  this.name = name;
+		  this.equipment = equipment;
+		  this.primaryMuscle = primaryMuscle;
+		  this.secondaryMuscle = secondaryMuscle;
+		  this.desc = desc;
+		  this.reminders = reminders;
+		}
 		
-    // How do we get the name of an enumeration value?
+		// How do we get the name of an enumeration value?
 	}
 	
+	
   // This function adds a new workout to the Workouts object.
-  public final void addWorkout(String name, Equipment equipment, muscle primaryMuscle, muscle secondaryMuscle, String desc, String reminders)
-  {
+  public final void addWorkout(String name, Equipment equipment, Muscle primaryMuscle, Muscle secondaryMuscle, String desc, String reminders) {
+    // creates new instance of a Workout class
+    Workout newWorkout = new Workout(name, equipment, primaryMuscle, secondaryMuscle, desc, reminders);
+    // adds new instance to the workout list
+    workoutList.add(newWorkout);
   }
   
   // This function adds a workout to the Workouts object.
-  public final void addWorkout(Workout workout)
-  {
+  public final void addWorkout(Workout workout) {
+    workoutList.add(workout);
   }
   
   // This list returns a new Workouts object that contains only the workouts that contain the
   // Equipment value that is provided as an argument. The programmer has an option to get
   // Workouts that only have the Muscle in the PrimaryMuscle attribute, or to also look
   // in the secondaryMuscle category.
-	public final Workouts getWorkoutsByMuscle(muscle m, boolean includeSecondary)
-	{
+  public final Workouts getWorkoutsByMuscle(Muscle m, boolean includeSecondary) {
 	  // What is short-circuit evaluation?
-	}
+    Workouts canWorkout = new Workouts();
+    for (int i = 0; i < workoutList.size(); i++) {
+      if (m == workoutList.get(i).primaryMuscle) {
+        canWorkout.addWorkout(workoutList.get(i));
+      }
+      else if (includeSecondary) {
+        if (m == workoutList.get(i).secondaryMuscle) {
+          canWorkout.addWorkout(workoutList.get(i));
+        }
+      }
+    }
+    return canWorkout;
+  }
 	
 	// This list returns a new Workouts object that contains only the workouts that contain the
 	// Equipment value that is provided as an argument.
-  public final Workouts getWorkoutsByEquipment(Equipment e)
-  {
+  public final Workouts getWorkoutsByEquipment(Equipment e) {
+    Workouts doableWorkouts = new Workouts();
+    for (int i = 0; i < workoutList.size(); i++) {
+      if (e == workoutList.get(i).equipment) {
+        doableWorkouts.addWorkout(workoutList.get(i));
+      }
+    }
+    return doableWorkouts;
   }
 	
   // This returns a new Workouts object that contains only the workouts that contain an Equipment
   // value that is in the provided ArrayList of Equipment.
-  public final Workouts getWorkoutsByEquipment(ArrayList<Equipment> e)
-  {
+  public final Workouts getWorkoutsByEquipment(ArrayList<Equipment> e) {
+    
   }
 	
   // This method returns an ArrayList of Strings. Each String is a name of a workout in our Workouts list.
-  public final ArrayList<String> getNames()
-  {
+  public final ArrayList<String> getNames() {
+    
   }
  
   // This method returns all the information of the Workouts as an ArrayList of String arrays, 
   // one entry in the ArrayList per Workout. The String array should contain the workout's Name, 
   // Equipment, Primary and Secondary Muscles, Description, and Reminders. All of these should be strings.
-  public final ArrayList<String[]> getFullInformation()
-  {
+  public final ArrayList<String[]> getFullInformation() {
+    
   }
 }
