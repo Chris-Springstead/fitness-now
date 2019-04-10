@@ -37,6 +37,19 @@ public class Workouts {
 		}
 		
 		// How do we get the name of an enumeration value?
+		
+		public String[] toStringArray() {
+		  // makes a string array that contains information for a workout at a specific index of the workoutList
+		  String[] temp = new String[6];
+		  temp[0] = this.name;
+		  temp[1] = this.equipment.toString();
+		  temp[2] = this.primaryMuscle.toString();
+		  temp[3] = this.secondaryMuscle.toString();
+		  temp[4] = this.desc;
+		  temp[5] = this.reminders;
+		  return temp;
+		}
+		
 	}
 	
 	
@@ -88,18 +101,39 @@ public class Workouts {
   // This returns a new Workouts object that contains only the workouts that contain an Equipment
   // value that is in the provided ArrayList of Equipment.
   public final Workouts getWorkoutsByEquipment(ArrayList<Equipment> e) {
+    // making new ArrayList to hold data
+    Workouts equipWorkouts = new Workouts(); 
     
+    // nested loops to compare all the elements in both of the lists
+    for (int i = 0; i < workoutList.size(); i++) {
+       for (int j = 0; j < e.size(); j++) {
+         if (e.get(j) == workoutList.get(i).equipment) {
+           equipWorkouts.addWorkout(workoutList.get(i));
+         }
+       }
+     }
+    return equipWorkouts;
   }
 	
   // This method returns an ArrayList of Strings. Each String is a name of a workout in our Workouts list.
   public final ArrayList<String> getNames() {
-    
+    ArrayList<String> posWorkouts = new ArrayList<String>();
+    for (int i = 0; i < workoutList.size(); i++) {
+      posWorkouts.add(workoutList.get(i).name); 
+    }
+    return posWorkouts;
   }
  
   // This method returns all the information of the Workouts as an ArrayList of String arrays, 
   // one entry in the ArrayList per Workout. The String array should contain the workout's Name, 
   // Equipment, Primary and Secondary Muscles, Description, and Reminders. All of these should be strings.
   public final ArrayList<String[]> getFullInformation() {
-    
+    // need to make a toString function for the class Workout
+    ArrayList<String[]> fullInfo = new ArrayList<String[]>();
+    // need to fill temp with needed values
+    for (int i = 0; i < workoutList.size(); i++) {
+      fullInfo.add(workoutList.get(i).toStringArray());
+    }
+    return fullInfo;
   }
 }

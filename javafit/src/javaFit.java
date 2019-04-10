@@ -17,11 +17,11 @@ public class javaFit {
 
 	    // Load data into app
 	    Workouts workouts= FileAccess.loadWorkouts();
-
+//	    System.out.println(workouts.getFullInformation());
 	    // Print out all the names of workouts that work a specific primary muscle
 	    // NOTE: You do not need to handle cases where the user makes a typo. It is okay to error on that code, because we will not, in the future, allow direct user input like this. 
 	      System.out.println("Enter one of the following: ABS, BACK, BICEPS, CHEST, FOREARM, GLUTES, LOWERLEG, SHOULDER, TRICEPS, UPPERLEG");
-	      Scanner scanner = new Scanner(System. in);
+	      Scanner scanner = new Scanner(System.in);
         String muscle = scanner.nextLine();
         System.out.println(workouts.getWorkoutsByMuscle(Workouts.Muscle.valueOf(muscle), false).getNames()); // Pay special attention to how we convert this string to an enum value!
 	  
