@@ -1,31 +1,65 @@
-// Write code to load the workouts from the provided workouts.csv file. The function should return a Workouts object.
-import java.io.*;
+// This file gives access to the underlying datafile and stores the data in the Workout class.
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.EnumMap;
+import java.util.Scanner;
+
+//import Config.MuscleGroup;
 
 public class FileAccess {
-	public static Workouts loadWorkouts() {
-	  Workouts inFile = new Workouts();
-    // What is a try/catch block and why do we need one?
-    // What is an exception?
+  
+  public static Workouts loadWorkouts() {
+    Workouts retval = new Workouts();
+    
+    try { 
+      Scanner scanner = new Scanner(new File(Config.WORKOUTFILE));
+      while (scanner.hasNextLine()) {
+        String line = scanner.nextLine();
+        String[] fields = line.split(",");
+        // Check to make sure glen didn't bork the data file.
+        if (fields.length != 6)
+          System.out.println("Line has "+fields.length+" fields instead of 6. Check your commas.");
+        String name = fields[0];
+        Config.Equipment equipment = Config.Equipment.valueOf(fields[1]);
+        Config.Muscle primaryMuscle = Config.Muscle.valueOf(fields[2]);
+        Config.Muscle secondaryMuscle = Config.Muscle.valueOf(fields[3]);
+        String desc = fields[4];
+        String reminders = fields[5];
+        retval.addWorkout(name, equipment, primaryMuscle, secondaryMuscle, desc, reminders);
+      }
+      scanner.close();
+    }
+    catch (FileNotFoundException e) 
+    {
+      System.out.println("Unable to find workouts file. Is it in the same directory as the executable?\nError:"+e.toString());
+    }
+    return retval;
+  }
+
+  public static EnumMap<Config.MuscleGroup, ArrayList<Config.Muscle>> loadFormats() {
+	
+    EnumMap<Config.MuscleGroup, ArrayList<Config.Muscle>> retval  = new EnumMap<Config.MuscleGroup, ArrayList<Config.Muscle>>(Config.MuscleGroup.class);
 	  
-	  String file = Config.WORKOUTFILE;
-	  String line = "";
-	  
-	  try (BufferedReader br = new BufferedReader(new FileReader(file))) { 
-	    
-	    
-	    while ((line = br.readLine()) != null) {
-	      
-	      String[] temp = line.split(",");
-	      inFile.addWorkout(temp[0], Workouts.Equipment.valueOf(temp[1]), Workouts.Muscle.valueOf(temp[2]),Workouts.Muscle.valueOf(temp[3]), temp[4], temp[5]);
-	    }
-	    
-	  }
-	  catch (FileNotFoundException e) {
-	    e.printStackTrace();
-	  }
-	  catch (IOException e) {
-	    e.printStackTrace();
-	  }
-	  return inFile;
+ 	  // Code goes here.
+    try {
+      Scanner scanner = new Scanner(new File(Config.WORKOUTFORMATFILE));
+      while (scanner.hasNextLine()) {
+        String line = scanner.nextLine();
+        String[] item = line.split(",");
+        ArrayList<Config.Muscle> temp = new ArrayList<Config.Muscle>();
+        for (int i = 1; i < item.length; i++) {
+          Config.Muscle m = Config.Muscle.valueOf(item[i]);
+          temp.add(m); // need to put the right value in the temp ArrayList that I will put into the return value HashMap
+        }
+        Config.MuscleGroup mg = Config.MuscleGroup.valueOf(item[0]);
+        retval.put(mg, temp);
+      }
+      scanner.close();
+    }
+    catch (FileNotFoundException e) {
+      System.out.println("Unable to find format file. Is it in the same directory as the executable?\nError:"+e.toString());
+    }
+	  return retval;
   }
 }
